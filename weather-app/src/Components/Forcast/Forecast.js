@@ -1,68 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Conditions from "../Conditions/conditions";
 import "../../App.css";
+import { getForecast } from "../Forcast/GetForcast";
 
 const Forecast = () => {
-  let [city, setCity] = useState("");
+  let [city, setCity] = useState();
   let [unit, setUnit] = useState("imperial");
   let [responseObj, setResponseObj] = useState({});
 
   const uriEncodedCity = encodeURIComponent(city);
-
-  function getForecast(e) {
-    e.preventDefault();
-    // weather data fetch function will go here
-
-    fetch(
-      `https://community-open-weather-map.p.rapidapi.com/weather?units=${unit}&q=${uriEncodedCity}`,
-      {
-        method: "GET",
-        headers: {
-          "x-rapidapi-key":
-            "1a38598756msh9039c05e4c8f4e1p174d0ejsnf71f00a301bc",
-          "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((response) => {
-        setResponseObj(response);
-      });
-  }
-
+  useEffect(() => {
+    const defaultCity = encodeURIComponent("london");
+    getForecast("", unit, defaultCity, setResponseObj);
+  }, []);
+  console.log(city);
   return (
     <div>
       <h2>Find Current Weather Conditions</h2>
-      <form onSubmit={getForecast}>
-        <input
-          className="text-input"
-          type="text"
-          placeholder="Enter City"
-          maxLength="50"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-        <label>
+      <form
+        onSubmit={(e) => getForecast(e, unit, uriEncodedCity, setResponseObj)}
+      >
+        <div class="flex items-center justify-center">
+          <label for="Enter_City" class="sr-only">
+            Enter City
+          </label>
+          <input
+            type="text"
+            name="Enter_City"
+            id="Enter_City"
+            autocomplete="name"
+            class="block w-half text-center shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+            placeholder="Enter City"
+            onChange={(e) => setCity(e.target.value)}
+          />
+        </div>
+
+        <div class="flex items-center justify-center">
           <input
             type="radio"
             name="units"
             checked={unit === "imperial"}
             value="imperial"
             onChange={(e) => setUnit(e.target.value)}
+            class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 "
           />
-          Fahrenheit
-        </label>
-        <label>
+          <label for="budget_under_25k" class="m-3">
+            <span class="block text-sm text-gray-700">Fahrenheit</span>
+          </label>
+        </div>
+
+        <div class="flex items-center justify-center">
           <input
             type="radio"
             name="units"
             checked={unit === "metric"}
             value="metric"
             onChange={(e) => setUnit(e.target.value)}
+            class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 "
           />
-          Celcius
-        </label>
-        <button className="requestButton" type="submit">
+          <label for="budget_under_25k" class="m-3">
+            <span class="block text-sm text-gray-700">Celcius</span>
+          </label>
+        </div>
+
+        <button
+          class="w-half inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          type="submit"
+        >
           Get Forecast
         </button>
       </form>
