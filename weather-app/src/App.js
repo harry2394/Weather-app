@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1 class="text-3xl font-extrabold text-white-900 sm:text-4xl">
+        <h1 className="text-3xl font-extrabold text-white-900 sm:text-4xl">
           Weather App
         </h1>
       </header>
