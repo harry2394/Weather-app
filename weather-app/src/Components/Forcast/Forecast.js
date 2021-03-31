@@ -10,18 +10,29 @@ const Forecast = () => {
 
   const uriEncodedCity = encodeURIComponent(city);
   useEffect(() => {
-    const defaultCity = encodeURIComponent("london");
-    getForecast("", unit, defaultCity, setResponseObj);
-  }, []);
-  console.log(city);
+    //to avoid multiple calls, I ask this only to do this if undefined (which it will be on render)
+    //else it will just ignore this
+    if (city === undefined) {
+      const defaultCity = encodeURIComponent("london");
+      getForecast("imperial", defaultCity, setResponseObj);
+    }
+  }, [city]);
+  //create an onSubmit function that is solely for the form
+  //this has the event prevent default and also calls the function to
+  //get the forecast and set it
+  const onSubmit = (e) => {
+    e.preventDefault();
+    getForecast(unit, uriEncodedCity, setResponseObj);
+  };
   return (
     <div>
       <h2>Find Current Weather Conditions</h2>
       <form
-        onSubmit={(e) => getForecast(e, unit, uriEncodedCity, setResponseObj)}
+        //onSubmit={(e) => getForecast(e, unit, uriEncodedCity, setResponseObj)}
+        onSubmit={onSubmit}
       >
         <div class="flex items-center justify-center">
-          <label for="Enter_City" class="sr-only">
+          <label htmlFor="Enter_City" class="sr-only">
             Enter City
           </label>
           <input
@@ -44,7 +55,7 @@ const Forecast = () => {
             onChange={(e) => setUnit(e.target.value)}
             class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 "
           />
-          <label for="budget_under_25k" class="m-3">
+          <label htmlFor="budget_under_25k" class="m-3">
             <span class="block text-sm text-gray-700">Fahrenheit</span>
           </label>
         </div>
@@ -58,7 +69,7 @@ const Forecast = () => {
             onChange={(e) => setUnit(e.target.value)}
             class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 "
           />
-          <label for="budget_under_25k" class="m-3">
+          <label htmlFor="budget_under_25k" class="m-3">
             <span class="block text-sm text-gray-700">Celcius</span>
           </label>
         </div>

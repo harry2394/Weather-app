@@ -1,4 +1,4 @@
-export function getForecast(e, unit, uriEncodedCity, setResponseObj) {
+export function getForecast(unit, uriEncodedCity, setResponseObj) {
   //e.preventDefault();
 
   fetch(
