@@ -23,6 +23,20 @@ const conditions = (props) => {
 
     var hours = new Date().getHours();
     var mins = new Date().getMinutes();
+
+    var Box = ({ body, title }) => {
+      return (
+        <div className="flex flex-col border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r">
+          <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
+            {title}
+          </dt>
+          <dd className="order-1 text-5xl font-extrabold text-indigo-600">
+            {body}
+          </dd>
+        </div>
+      );
+    };
+    console.log(Box);
   }
   return (
     <div>
@@ -51,54 +65,21 @@ const conditions = (props) => {
               <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto">
                   <dl className="rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-3">
-                    <div className="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
-                      <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-                        Temperature
-                      </dt>
-                      <dd className="order-1 text-5xl font-extrabold text-indigo-600">
-                        {Math.round(props.responseObj.main.temp)}°
-                      </dd>
-                    </div>
-                    <div className="flex flex-col border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r">
-                      <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-                        Real Feel
-                      </dt>
-                      <dd className="order-1 text-5xl font-extrabold text-indigo-600">
-                        {Math.round(props.responseObj.main.feels_like)}°
-                      </dd>
-                    </div>
-                    <div className="flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
-                      <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-                        Sky
-                      </dt>
-                      <dd className="order-1 text-5xl font-extrabold text-indigo-600">
-                        {props.responseObj.weather[0].main}
-                      </dd>
-                    </div>
-                    <div className="flex flex-col border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r">
-                      <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-                        Wind speed
-                      </dt>
-                      <dd className="order-1 text-5xl font-extrabold text-indigo-600">
-                        {Math.round(props.responseObj.wind.speed)}
-                      </dd>
-                    </div>
-                    <div className="flex flex-col border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r">
-                      <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-                        Sunset
-                      </dt>
-                      <dd className="order-1 text-5xl font-extrabold text-indigo-600">
-                        {formattedTimeSet}
-                      </dd>
-                    </div>
-                    <div className="flex flex-col border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r">
-                      <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-                        Sunrise
-                      </dt>
-                      <dd className="order-1 text-5xl font-extrabold text-indigo-600">
-                        {formattedTimeRise}
-                      </dd>
-                    </div>
+                    <Box
+                      title="Temperature"
+                      body={Math.round(props.responseObj.main.temp) + "°"}
+                    />
+                    <Box
+                      title="Real Feel"
+                      body={Math.round(props.responseObj.main.feels_like) + "°"}
+                    />
+                    <Box title="sky" body={props.responseObj.weather[0].main} />
+                    <Box
+                      title="Wind Speed"
+                      body={Math.round(props.responseObj.wind.speed)}
+                    />
+                    <Box title="Sunset" body={formattedTimeSet} />
+                    <Box title="Sunrise" body={formattedTimeRise} />
                   </dl>
                 </div>
               </div>
